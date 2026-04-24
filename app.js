@@ -1,6 +1,5 @@
 var createError = require('http-errors');
 var express = require('express');
-var expressLayouts = require("express-ejs-layouts");
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -10,9 +9,8 @@ const session = require('express-session');
 var indexRouter = require("./routes/index");
 var userRoutes = require("./modules/user/userRoutes");     
 
-
-
 var app = express();
+var expressLayouts = require("express-ejs-layouts");
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views/pages'));

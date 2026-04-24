@@ -98,9 +98,11 @@ exports.updateProfile = async (req, res) => {
             updateData.profilePicture = req.file.filename;
         }
 
+        // Obtém o nome da foto de perfil antiga antes de atualizar
         const oldUser = await User.findByPk(userId);
 
         await User.update(updateData, { where: { id: userId } });
+
         // Se uma nova foto foi enviada e o usuário tinha uma foto anterior (não a default),
         // apagar a foto antiga do sistema de arquivos.
         if (req.file && oldUser.profilePicture && oldUser.profilePicture !== 'default-profile.png') {
@@ -109,9 +111,13 @@ exports.updateProfile = async (req, res) => {
             if (err) console.error('Erro ao apagar foto de perfil antiga:', err);
             else console.log('Foto de perfil antiga apagada:', oldProfilePicPath);
          });
-}
+
+        // Atualiza os dados do usuário na sessão para refletir as mudanças imediatamente
         const userData = await this.getProfile(userId);
         req.session.user = userData;
+
+        
+    }
         req.flash('success', 'Perfil atualizado com sucesso!');
         res.redirect('/profile/edit');
 
