@@ -7,7 +7,8 @@ const flash = require('connect-flash')
 const session = require('express-session');
 
 var indexRouter = require("./routes/index");
-var userRoutes = require("./modules/user/userRoutes");     
+var userRoutes = require("./modules/user/userRoutes");   
+var videoRoutes = require("./modules/video/videoRoutes");   
 
 var app = express();
 var expressLayouts = require("express-ejs-layouts");
@@ -42,7 +43,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use("/", userRoutes); // [ADICIONAR] Usa as rotas de usuário descentralizadas
+app.use("/", userRoutes); 
+app.use("/", videoRoutes);
 
 
 // catch 404 and forward to error handler
@@ -67,6 +69,7 @@ app.use(function(err, req, res, next) {
 
 const sequelize = require('./config/database');
 const User = require('./modules/user/userModel');
+const Video = require("./modules/video/videoModel");
 
 sequelize.sync({alter:true})
 .then( () => console.log('Sincronia realizada'))
